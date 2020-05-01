@@ -52,8 +52,8 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	windowx->SetLpClassName(WelcomeWindowClassName);
 	windowx->SethInstance(hInstance);
 	windowx->make();
-	//windowx->WndShow();
-	//windowx->WndUpdate();
+	windowx->WndShow();
+	windowx->WndUpdate();
 	windowx->init();
 
 
