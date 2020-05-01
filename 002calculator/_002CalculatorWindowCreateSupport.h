@@ -11,6 +11,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <process.h>
+
+
+
 namespace mod {
 
 	/**
@@ -109,6 +112,9 @@ namespace mod {
 		DWORD dwThreadID = NULL;
 		/*Thread variables end*/
 
+		/*procedure pointer variable*/
+		LRESULT* CALLBACK ProcedurePtrFn;
+		/*end*/
 
 		void ImmediateLiveUpdate();
 	public:
@@ -131,11 +137,16 @@ namespace mod {
 		);
 		win(void);
 		~win(void);
+
 		void WindowClassRegister(WNDCLASS& WndClassOptions);
 		void SetLpClassName(LPCWSTR lpClassName);
+
 		LPCWSTR GetLpClassName();
 		LPCWSTR* GetLpClassName_ptr();
 		
+		void ReadyProcFn(LRESULT* CALLBACK fn_ptr);
+		LRESULT* CALLBACK GetProcFn();
+
 		void SetPos(int x, int y);
 		void UpdatePos(int x, int y);
 		const int* GetPos();
@@ -158,7 +169,6 @@ namespace mod {
 		//void UpdateMenu(HMENU Menu);
 
 		void SethInstance(HINSTANCE hInstance);
-		HINSTANCE GethInstance();
 
 		
 		HWND& GetHandle();

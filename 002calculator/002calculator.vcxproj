@@ -139,9 +139,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="WndClassCreateSupport.cpp" />
     <ClCompile Include="_002CalculatorWindowCreateSupport.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="WndClassCreateSupport.h" />
     <ClInclude Include="_002CalculatorWindowCreateSupport.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

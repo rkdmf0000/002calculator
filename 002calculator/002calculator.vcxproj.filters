@@ -21,9 +21,15 @@
     <ClCompile Include="_002CalculatorWindowCreateSupport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="WndClassCreateSupport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="_002CalculatorWindowCreateSupport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WndClassCreateSupport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

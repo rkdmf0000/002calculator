@@ -14,6 +14,14 @@ namespace mod {
 		printf("------------------\n");
 	};
 
+	void win::ReadyProcFn(LRESULT* CALLBACK fn_ptr) {
+		this->ProcedurePtrFn = fn_ptr;
+	};
+
+	LRESULT* CALLBACK win::GetProcFn() {
+		return this->ProcedurePtrFn;
+	};
+
 	void win::ImmediateLiveUpdate() {
 
 	};
@@ -129,23 +137,7 @@ namespace mod {
 	};
 
 	void win::make() {
-		this->ProcessHandle = CreateWindow(
-			this->lpClassName,
-			this->Text,
-			this->Style,
-			this->PosX,
-			this->PosY,
-			this->Width,
-			this->Height,
-			this->ParentHandle,
-			this->Menu,
-			this->hInstance,
-			this->lpParam
-		);
-		if (!this->ProcessHandle) {
-			MessageBoxOpen(L"Failed!", L"Handle make failed!");
-		}
-		printf("Make window\n");
+
 	};
 	void win::destroy() {
 
@@ -168,7 +160,50 @@ namespace mod {
 		std::wstring a(this->Text);
 		z.assign(a.begin(), a.end());
 		printf("Occurred thread as named \"%s\"\n", z.c_str());
-		return 0;
+
+
+		this->ProcessHandle = CreateWindow(
+			this->lpClassName,
+			this->Text,
+			this->Style,
+			this->PosX,
+			this->PosY,
+			this->Width,
+			this->Height,
+			this->ParentHandle,
+			this->Menu,
+			this->hInstance,
+			this->lpParam
+		);
+		if (!this->ProcessHandle) {
+			MessageBoxOpen(L"Failed!", L"Handle make failed!");
+		}
+		printf("Make window\n");
+
+
+
+
+		//로컬 메세지
+		bool bDone = false;
+		MSG msg;
+		while (!bDone)
+		{
+			while (PeekMessage(&msg, this->ProcessHandle, 0, 0, PM_REMOVE))
+			{
+				if (msg.message == WM_QUIT)
+				{
+					bDone = true;
+				} else {
+					TranslateMessage(&msg);
+					DispatchMessage(&msg);
+				}
+			}
+			InvalidateRect(this->ProcessHandle, NULL, TRUE);
+			UpdateWindow(this->ProcessHandle);
+		}
+		return (int)msg.wParam;
+
+
 	}
 	void win::Error(const char* mes) {
 		printf("Custom Error occurred: %s", mes);

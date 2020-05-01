@@ -38,9 +38,6 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	window->SetText(L"Idiot-윈도우1");
 	window->SetLpClassName(WelcomeWindowClassName);
 	window->SethInstance(hInstance);
-	window->make();
-	//window->WndShow();
-	//window->WndUpdate();
 	window->init();
 
 
@@ -51,18 +48,12 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	windowx->SetText(L"Idiot-윈도우2");
 	windowx->SetLpClassName(WelcomeWindowClassName);
 	windowx->SethInstance(hInstance);
-	windowx->make();
-	windowx->WndShow();
-	windowx->WndUpdate();
 	windowx->init();
 
 
-	MSG Message;
-	while (GetMessage(&Message, NULL, 0, 0)) {
-		TranslateMessage(&Message);
-		DispatchMessage(&Message);
-	};
-	return (int)Message.wParam;
+
+
+	while (1) { Sleep(65800000); }
 };
 
 
