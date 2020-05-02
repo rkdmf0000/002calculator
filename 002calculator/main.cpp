@@ -1,11 +1,12 @@
 #pragma comment(linker, "/entry:WinMainCRTStartup /subsystem:console")
 
-#include "_002CalculatorWindowCreateSupport.h"
-
+#include "WindowCreateSupport.h"
 
 LRESULT CALLBACK WelcomeWindowProcedure(HWND handle,UINT message, WPARAM wp, LPARAM lp) {
 	switch (message) {
 	case WM_DESTROY:
+		printf("윈도우 종료됨\n");
+		
 		PostQuitMessage(0);
 		return 0;
 	}
@@ -29,7 +30,7 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	WelcomeWindow.hInstance = hInstance;
 	WelcomeWindow.style = CS_HREDRAW | CS_VREDRAW;
 
-	mod::win* window = new mod::win;
+	WndCreateSupport::win* window = new WndCreateSupport::win;
 	window->WindowClassRegister(WelcomeWindow);
 
 	window->SetPos(100, 100);
@@ -41,7 +42,7 @@ int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	window->init();
 
 
-	mod::win* windowx = new mod::win;
+	WndCreateSupport::win* windowx = new WndCreateSupport::win;
 	windowx->SetPos(200, 200);
 	windowx->SetSize(500, 500);
 	windowx->SetStyle(WS_OVERLAPPEDWINDOW | WS_VISIBLE);

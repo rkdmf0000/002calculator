@@ -1,5 +1,5 @@
-#include "_002CalculatorWindowCreateSupport.h"
-namespace mod {
+#include "WindowCreateSupport.h"
+namespace WndCreateSupport {
 
 	//0으로 초기화
 	unsigned __int16 win::StackedPrimaryNumber = 0x00;
@@ -149,9 +149,16 @@ namespace mod {
 
 	};
 
+	void win::___dummy_text(void* dummy) {
+		if (this->dwThreadID) {
+			printf("ID: %d (%s)\n",this->dwThreadID,dummy);
+		} else {
+			printf("ID: 0 (%s)\n", dummy);
+		}
+		
+	}
 
 	unsigned int __stdcall win::StaticThreadEntry(void *args) {
-		printf("Thread entry\n");
 		win* p = static_cast<win*>(args);
 		return p->ThreadFunction(NULL);
 	};
@@ -178,8 +185,7 @@ namespace mod {
 		if (!this->ProcessHandle) {
 			MessageBoxOpen(L"Failed!", L"Handle make failed!");
 		}
-		printf("Make window\n");
-
+		___dummy_text((char*)"Created Window");
 
 
 
@@ -200,7 +206,11 @@ namespace mod {
 			}
 			InvalidateRect(this->ProcessHandle, NULL, TRUE);
 			UpdateWindow(this->ProcessHandle);
+			___dummy_text((char*)"LOOP!");
 		}
+
+
+
 		return (int)msg.wParam;
 
 
@@ -221,8 +231,9 @@ namespace mod {
 			
 		);
 		if (this->hThread == 0) Error("_beginthreadex Error\n");
-		printf("Created thread handle ID : %d\n", this->hThread);
-		printf("Created thread ID : %d\n", this->dwThreadID);
+		___dummy_text((char*)"Created thread handle");
+		//printf("Created thread handle ID : %d\n", this->hThread);
+		//printf("Created thread ID : %d\n", this->dwThreadID);
 		//WaitForSingleObject(this->hThread, INFINITE);
 	};
 };

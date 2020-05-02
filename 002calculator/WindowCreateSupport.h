@@ -14,7 +14,7 @@
 
 
 
-namespace mod {
+namespace WndCreateSupport {
 
 	/**
 		*	TITLE	IMMEDIATE LIVE HOOK
@@ -117,8 +117,8 @@ namespace mod {
 		/*end*/
 
 		void ImmediateLiveUpdate();
+		void ___dummy_text(void* dummy);
 	public:
-
 		win(
 			LPCWSTR lpClassName,
 			LPCWSTR Text,

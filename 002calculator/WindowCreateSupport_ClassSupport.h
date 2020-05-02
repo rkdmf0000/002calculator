@@ -1,0 +1,5 @@
+namespace WndCreateSupport {
+	class WndClass {
+
+	};
+};
