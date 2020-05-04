@@ -11,7 +11,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <process.h>
-namespace mod {
+
+#include <string>
+#include <tchar.h>
+
+namespace WndCreateSupport {
 
 	/**
 		*	TITLE	IMMEDIATE LIVE HOOK
@@ -75,6 +79,8 @@ namespace mod {
 	class win {
 	private:
 
+		
+
 		static const unsigned __int16 StackedPrimaryNumberMaximum = UINT16_MAX;
 		static unsigned __int16 StackedPrimaryNumber;
 
@@ -109,10 +115,17 @@ namespace mod {
 		DWORD dwThreadID = NULL;
 		/*Thread variables end*/
 
+		/*procedure pointer variable*/
+		LRESULT* CALLBACK ProcedurePtrFn;
+		/*end*/
 
 		void ImmediateLiveUpdate();
-	public:
+		void ___dummy_text(void* dummy);
+		
 
+	public:
+		static unsigned long WindowLength;
+		static std::vector<void*> WindowCollector;
 		win(
 			LPCWSTR lpClassName,
 			LPCWSTR Text,
@@ -131,11 +144,16 @@ namespace mod {
 		);
 		win(void);
 		~win(void);
+
 		void WindowClassRegister(WNDCLASS& WndClassOptions);
 		void SetLpClassName(LPCWSTR lpClassName);
+
 		LPCWSTR GetLpClassName();
 		LPCWSTR* GetLpClassName_ptr();
 		
+		void ReadyProcFn(LRESULT* CALLBACK fn_ptr);
+		LRESULT* CALLBACK GetProcFn();
+
 		void SetPos(int x, int y);
 		void UpdatePos(int x, int y);
 		const int* GetPos();
@@ -158,7 +176,6 @@ namespace mod {
 		//void UpdateMenu(HMENU Menu);
 
 		void SethInstance(HINSTANCE hInstance);
-		HINSTANCE GethInstance();
 
 		
 		HWND& GetHandle();

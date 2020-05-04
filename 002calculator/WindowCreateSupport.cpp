@@ -1,17 +1,30 @@
-#include "_002CalculatorWindowCreateSupport.h"
-namespace mod {
+#include "WindowCreateSupport.h"
+namespace WndCreateSupport {
 
 	//0으로 초기화
 	unsigned __int16 win::StackedPrimaryNumber = 0x00;
-
+	unsigned long win::WindowLength = 1;
+	std::vector<void*> win::WindowCollector;
 
 	win::win(void) {
-		printf("\n------------------\n");
+		printf("\------------------START\n");
 		printf("Create new window instance\n");
+		win::WindowCollector.push_back(this);
+		win::WindowLength = win::WindowCollector.size();
+		printf("- - -Now total count: %d Window instances\n", win::WindowLength);
+		printf("\n------------------END\n");
 	};
 	win::~win(void) {
 		printf("END\n");
 		printf("------------------\n");
+	};
+
+	void win::ReadyProcFn(LRESULT* CALLBACK fn_ptr) {
+		this->ProcedurePtrFn = fn_ptr;
+	};
+
+	LRESULT* CALLBACK win::GetProcFn() {
+		return this->ProcedurePtrFn;
 	};
 
 	void win::ImmediateLiveUpdate() {
@@ -129,6 +142,38 @@ namespace mod {
 	};
 
 	void win::make() {
+
+	};
+	void win::destroy() {
+
+	};
+	void win::stop() {
+
+	};
+	void win::resume() {
+
+	};
+
+	void win::___dummy_text(void* dummy) {
+		if (this->dwThreadID) {
+			printf("ID: %d (%s)\n",this->dwThreadID,dummy);
+		} else {
+			printf("ID: 0 (%s)\n", dummy);
+		}
+		
+	}
+
+	unsigned int __stdcall win::StaticThreadEntry(void *args) {
+		win* p = static_cast<win*>(args);
+		return p->ThreadFunction(NULL);
+	};
+	INT CALLBACK win::ThreadFunction(void* args) {
+		std::string z;
+		std::wstring a(this->Text);
+		z.assign(a.begin(), a.end());
+		printf("Occurred thread as named \"%s\"\n", z.c_str());
+
+
 		this->ProcessHandle = CreateWindow(
 			this->lpClassName,
 			this->Text,
@@ -145,30 +190,34 @@ namespace mod {
 		if (!this->ProcessHandle) {
 			MessageBoxOpen(L"Failed!", L"Handle make failed!");
 		}
-		printf("Make window\n");
-	};
-	void win::destroy() {
-
-	};
-	void win::stop() {
-
-	};
-	void win::resume() {
-
-	};
+		___dummy_text((char*)"Created Window");
 
 
-	unsigned int __stdcall win::StaticThreadEntry(void *args) {
-		printf("Thread entry\n");
-		win* p = static_cast<win*>(args);
-		return p->ThreadFunction(NULL);
-	};
-	INT CALLBACK win::ThreadFunction(void* args) {
-		std::string z;
-		std::wstring a(this->Text);
-		z.assign(a.begin(), a.end());
-		printf("Occurred thread as named \"%s\"\n", z.c_str());
-		return 0;
+
+		//로컬 메세지
+		bool bDone = false;
+		MSG msg;
+		while (!bDone)
+		{
+			while (PeekMessage(&msg, this->ProcessHandle, 0, 0, PM_REMOVE))
+			{
+				if (msg.message == WM_QUIT)
+				{
+					bDone = true;
+				} else {
+					TranslateMessage(&msg);
+					DispatchMessage(&msg);
+				}
+			}
+			InvalidateRect(this->ProcessHandle, NULL, TRUE);
+			UpdateWindow(this->ProcessHandle);
+		}
+
+
+
+		return (int)msg.wParam;
+
+
 	}
 	void win::Error(const char* mes) {
 		printf("Custom Error occurred: %s", mes);
@@ -186,8 +235,9 @@ namespace mod {
 			
 		);
 		if (this->hThread == 0) Error("_beginthreadex Error\n");
-		printf("Created thread handle ID : %d\n", this->hThread);
-		printf("Created thread ID : %d\n", this->dwThreadID);
+		___dummy_text((char*)"Created thread handle");
+		//printf("Created thread handle ID : %d\n", this->hThread);
+		//printf("Created thread ID : %d\n", this->dwThreadID);
 		//WaitForSingleObject(this->hThread, INFINITE);
 	};
 };

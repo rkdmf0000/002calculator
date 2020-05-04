@@ -18,12 +18,18 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="_002CalculatorWindowCreateSupport.cpp">
+    <ClCompile Include="WindowCreateSupport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WindowCreateSupport_ClassSupport.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="_002CalculatorWindowCreateSupport.h">
+    <ClInclude Include="WindowCreateSupport.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowCreateSupport_ClassSupport.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
