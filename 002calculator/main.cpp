@@ -2,13 +2,84 @@
 
 #include "WindowCreateSupport.h"
 
+
+void MousePosDisplay(HWND handle, UINT message, WPARAM wp, LPARAM lp) {
+	short mx, my;
+	mx = (short)LOWORD(lp);
+	my = (short)HIWORD(lp);
+
+
+	std::wstring strx, stry;
+	strx = std::to_wstring(mx);
+	stry = std::to_wstring(my);
+
+	const wchar_t* chx;
+	const wchar_t* chy;
+	chx = strx.c_str();
+	chy = stry.c_str();
+
+	HDC hDC = ::GetDC(handle);
+	TextOut(hDC, 20, 20, L"x:", 2);
+	TextOut(hDC, 50, 20, chx, _tcslen(chx));
+	TextOut(hDC, 20, 40, L"y:", 2);
+	TextOut(hDC, 50, 40, chy, _tcslen(chy));
+
+	::ReleaseDC(handle, hDC);
+}
+
 LRESULT CALLBACK WelcomeWindowProcedure(HWND handle,UINT message, WPARAM wp, LPARAM lp) {
+	//RECT rect{ 20,20,30,20 };
+	
 	switch (message) {
+
+	case WM_MOUSEMOVE:		
+		MousePosDisplay(handle,message,wp,lp);
+		return 0;
+
+	case WM_ACTIVATE:
+		printf("WM_ACTIVATE ON: %d/%d\n", wp, lp);
+		return 0;
+	case WM_COPY:
+		printf("WM_COPY ON\n");
+		return 0;
+
+	case WM_KEYUP:
+		printf("WM_KEYUP ON: %d/%d\n", wp, lp);
+		std::cout << HIWORD(wp) << LOWORD(wp) << std::endl;
+		std::cout << HIWORD(lp) << LOWORD(lp) << std::endl;
+		std::cout << HIBYTE(wp) << LOBYTE(wp) << std::endl;
+		std::cout << HIBYTE(lp) << LOBYTE(lp) << std::endl;
+		return 0;
+	case WM_KEYDOWN:
+		printf("WM_KEYDOWN ON: %d/%d\n", wp,lp);
+		return 0;
+	case WM_COMMAND:
+		printf("WM_COMMAND ON\n");
+		std::cout << HIWORD(wp) << LOWORD(wp) << std::endl;
+		std::cout << HIWORD(lp) << LOWORD(lp) << std::endl;
+		std::cout << HIBYTE(wp) << LOBYTE(wp) << std::endl;
+		std::cout << HIBYTE(lp) << LOBYTE(lp) << std::endl;
+		return 0;
+	case WM_PAINT:
+		//InvalidateRect(handle, &rect, true);
+		//printf("WM_PAINT ON\n");
+		return 0;
+
+	case WM_ENABLE:
+		printf("WM_ENABLE ON\n");
+		return 0;
+
+	case WM_CREATE:
+		printf("WM_CREATE ON\n");
+		return 0;
+
+
 	case WM_DESTROY:
 		printf("윈도우 종료됨\n");
 		
 		PostQuitMessage(0);
 		return 0;
+		break;
 	}
 	return (DefWindowProc(handle, message, wp, lp));
 };

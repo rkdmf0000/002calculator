@@ -3,11 +3,16 @@ namespace WndCreateSupport {
 
 	//0으로 초기화
 	unsigned __int16 win::StackedPrimaryNumber = 0x00;
-
+	unsigned long win::WindowLength = 1;
+	std::vector<void*> win::WindowCollector;
 
 	win::win(void) {
-		printf("\n------------------\n");
+		printf("\------------------START\n");
 		printf("Create new window instance\n");
+		win::WindowCollector.push_back(this);
+		win::WindowLength = win::WindowCollector.size();
+		printf("- - -Now total count: %d Window instances\n", win::WindowLength);
+		printf("\n------------------END\n");
 	};
 	win::~win(void) {
 		printf("END\n");
@@ -206,7 +211,6 @@ namespace WndCreateSupport {
 			}
 			InvalidateRect(this->ProcessHandle, NULL, TRUE);
 			UpdateWindow(this->ProcessHandle);
-			___dummy_text((char*)"LOOP!");
 		}
 
 

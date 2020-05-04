@@ -12,7 +12,8 @@
 #include <stdlib.h>
 #include <process.h>
 
-
+#include <string>
+#include <tchar.h>
 
 namespace WndCreateSupport {
 
@@ -78,6 +79,8 @@ namespace WndCreateSupport {
 	class win {
 	private:
 
+		
+
 		static const unsigned __int16 StackedPrimaryNumberMaximum = UINT16_MAX;
 		static unsigned __int16 StackedPrimaryNumber;
 
@@ -118,7 +121,11 @@ namespace WndCreateSupport {
 
 		void ImmediateLiveUpdate();
 		void ___dummy_text(void* dummy);
+		
+
 	public:
+		static unsigned long WindowLength;
+		static std::vector<void*> WindowCollector;
 		win(
 			LPCWSTR lpClassName,
 			LPCWSTR Text,
