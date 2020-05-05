@@ -138,13 +138,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="calculator.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="calculator.h" />
     <ClCompile Include="WindowCreateSupport_ClassSupport.cpp" />
     <ClCompile Include="WindowCreateSupport.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="common.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="WindowCreateSupport_ClassSupport.h" />
     <ClInclude Include="WindowCreateSupport.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="002calculator.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

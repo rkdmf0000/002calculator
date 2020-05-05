@@ -1,34 +1,52 @@
+
 #include "WindowCreateSupport.h"
+
 namespace WndCreateSupport {
 
 	//0으로 초기화
 	unsigned __int16 win::StackedPrimaryNumber = 0x00;
 	unsigned long win::WindowLength = 1;
+
+
 	std::vector<void*> win::WindowCollector;
 
 	win::win(void) {
-		printf("\------------------START\n");
 		printf("Create new window instance\n");
 		win::WindowCollector.push_back(this);
 		win::WindowLength = win::WindowCollector.size();
-		printf("- - -Now total count: %d Window instances\n", win::WindowLength);
-		printf("\n------------------END\n");
+		printf("- - - Now total count: %d Window instances\n", win::WindowLength);
 	};
 	win::~win(void) {
-		printf("END\n");
-		printf("------------------\n");
+
 	};
 
-	void win::ReadyProcFn(LRESULT* CALLBACK fn_ptr) {
-		this->ProcedurePtrFn = fn_ptr;
-	};
+	//void win::ReadyProcFn(LRESULT* CALLBACK fn_ptr) {
+	//	this->ProcedurePtrFn = fn_ptr;
+	//};
 
-	LRESULT* CALLBACK win::GetProcFn() {
-		return this->ProcedurePtrFn;
+	//LRESULT* CALLBACK win::GetProcFn() {
+	//	return this->ProcedurePtrFn;
+	//};
+
+
+	void win::on(IMMEDIATE_LIVE_HOOK Type, void* Callback) {
+		this->HookStorage.push_back(Type);
+		this->HookStorageLength = this->HookStorage.size();
+		// Callback(0);
 	};
 
 	void win::ImmediateLiveUpdate() {
+		//STATICALLY
+		
+		//IMMEDIATELY
+		int ImmediateCnt=0;
+		for (void* Callback : this->HookStorage_ptr) {
+			//printf("%d\n", Type);
+			//Callback();
+			ImmediateCnt++;
+		};
 
+		//delete &ImmediateCnt;
 	};
 
 	const __int16 win::RandomizeNumber(int a,int b, int length) {
@@ -133,12 +151,12 @@ namespace WndCreateSupport {
 
 	void win::WndShow() {
 		ShowWindow(this->ProcessHandle,0);
-		printf("Show window\n");
+		___dummy_text((char*)"Show window");
 	};
 
 	void win::WndUpdate() {
 		UpdateWindow(this->ProcessHandle);
-		printf("Update window\n");
+		___dummy_text((char*)"Update window");
 	};
 
 	void win::make() {
@@ -168,11 +186,6 @@ namespace WndCreateSupport {
 		return p->ThreadFunction(NULL);
 	};
 	INT CALLBACK win::ThreadFunction(void* args) {
-		std::string z;
-		std::wstring a(this->Text);
-		z.assign(a.begin(), a.end());
-		printf("Occurred thread as named \"%s\"\n", z.c_str());
-
 
 		this->ProcessHandle = CreateWindow(
 			this->lpClassName,
@@ -208,7 +221,10 @@ namespace WndCreateSupport {
 					TranslateMessage(&msg);
 					DispatchMessage(&msg);
 				}
+				//등록된 이벤트 확인 루프
+				this->ImmediateLiveUpdate();
 			}
+			
 			InvalidateRect(this->ProcessHandle, NULL, TRUE);
 			UpdateWindow(this->ProcessHandle);
 		}
