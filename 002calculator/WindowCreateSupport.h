@@ -1,20 +1,5 @@
-#pragma once
 
-#include <windows.h>
-#include <vector>
-#include <thread>
-#include <random>
-#include <limits.h>
-#include <iostream>
-#include <thread>
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <process.h>
-
-#include <string>
-#include <tchar.h>
-
+#include "common.h"
 namespace WndCreateSupport {
 
 	/**
@@ -88,7 +73,8 @@ namespace WndCreateSupport {
 		void MessageBoxOpen(LPCWSTR Caption,LPCWSTR Text,UINT Style);
 
 		std::vector<IMMEDIATE_LIVE_HOOK> HookStorage;
-		std::vector<unsigned long> HookStorage_ptr;
+		std::vector<void*> HookStorage_ptr;
+		unsigned long HookStorageLength = 0;
 
 		const __int16 RandomizeNumber(int a, int b, int length);
 		const __int16 TakeItYourUniqueNumber_16bit();
@@ -116,7 +102,7 @@ namespace WndCreateSupport {
 		/*Thread variables end*/
 
 		/*procedure pointer variable*/
-		LRESULT* CALLBACK ProcedurePtrFn;
+		//LRESULT* CALLBACK ProcedurePtrFn;
 		/*end*/
 
 		void ImmediateLiveUpdate();
@@ -151,8 +137,8 @@ namespace WndCreateSupport {
 		LPCWSTR GetLpClassName();
 		LPCWSTR* GetLpClassName_ptr();
 		
-		void ReadyProcFn(LRESULT* CALLBACK fn_ptr);
-		LRESULT* CALLBACK GetProcFn();
+		//void ReadyProcFn(LRESULT* CALLBACK fn_ptr);
+		//LRESULT* CALLBACK GetProcFn();
 
 		void SetPos(int x, int y);
 		void UpdatePos(int x, int y);
@@ -190,6 +176,9 @@ namespace WndCreateSupport {
 		void stop();
 		void resume();
 		void init();
+
+		void on(IMMEDIATE_LIVE_HOOK, void*);
+
 	};
 
 
