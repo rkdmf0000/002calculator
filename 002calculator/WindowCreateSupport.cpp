@@ -10,13 +10,13 @@ namespace WndCreateSupport {
 
 	std::vector<void*> win::WindowCollector;
 
-	win::win(void) {
+	win::win() {
 		printf("Create new window instance\n");
 		win::WindowCollector.push_back(this);
 		win::WindowLength = win::WindowCollector.size();
 		printf("- - - Now total count: %d Window instances\n", win::WindowLength);
 	};
-	win::~win(void) {
+	win::~win() {
 
 	};
 
@@ -29,24 +29,25 @@ namespace WndCreateSupport {
 	//};
 
 
-	void win::on(IMMEDIATE_LIVE_HOOK Type, void* Callback) {
+	void win::on(WndCreateSupport::IMMEDIATE_LIVE_HOOK Type, std::function<void()> Callback) {
 		this->HookStorage.push_back(Type);
 		this->HookStorageLength = this->HookStorage.size();
-		// Callback(0);
+		this->HookStorage_ptr.push_back(Callback);
 	};
 
 	void win::ImmediateLiveUpdate() {
-		//STATICALLY
+		//STATICALLY EVER
 		
-		//IMMEDIATELY
-		int ImmediateCnt=0;
-		for (void* Callback : this->HookStorage_ptr) {
+		//STATICALLY ONCE
+		
+		//IMMEDIATELY EVER
+
+		//IMMEDIATELY ONCE
+		for (std::function<void()> Callback : this->HookStorage_ptr) {
 			//printf("%d\n", Type);
-			//Callback();
-			ImmediateCnt++;
+			Callback();
 		};
 
-		//delete &ImmediateCnt;
 	};
 
 	const __int16 win::RandomizeNumber(int a,int b, int length) {

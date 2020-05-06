@@ -7,7 +7,7 @@ namespace WndCreateSupport {
 		*	DESC	Customized on window events
 		*	TYPE	Enum
 		*/
-	enum IMMEDIATE_LIVE_HOOK {
+	enum class IMMEDIATE_LIVE_HOOK {
 		//Triggered when window moving
 		IMMEDIATE_LIVE_HOOK__WINDOW_MOVE,
 		//Triggered when window left click before
@@ -73,7 +73,7 @@ namespace WndCreateSupport {
 		void MessageBoxOpen(LPCWSTR Caption,LPCWSTR Text,UINT Style);
 
 		std::vector<IMMEDIATE_LIVE_HOOK> HookStorage;
-		std::vector<void*> HookStorage_ptr;
+		std::vector<std::function<void()>> HookStorage_ptr;
 		unsigned long HookStorageLength = 0;
 
 		const __int16 RandomizeNumber(int a, int b, int length);
@@ -128,8 +128,8 @@ namespace WndCreateSupport {
 			INT Width,
 			INT Height
 		);
-		win(void);
-		~win(void);
+		win();
+		~win();
 
 		void WindowClassRegister(WNDCLASS& WndClassOptions);
 		void SetLpClassName(LPCWSTR lpClassName);
@@ -177,7 +177,7 @@ namespace WndCreateSupport {
 		void resume();
 		void init();
 
-		void on(IMMEDIATE_LIVE_HOOK, void*);
+		void on(IMMEDIATE_LIVE_HOOK, std::function<void()>);
 
 	};
 

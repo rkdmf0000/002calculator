@@ -1,10 +1,10 @@
 
 #include "common.h"
 
-#ifndef WINDOWSUPPORT_H
-#define WINDOWSUPPORT_H
+#ifndef __WINDOWSUPPORT_H__
+#define __WINDOWSUPPORT_H__
 #include "WindowCreateSupport.h"
 #endif
 
 
-void calculatorStart(HINSTANCE& hInstance, HINSTANCE& hPrevInstance, LPSTR& lpCmdLine, int& nCmdShow);
+void calculatorStart(const HINSTANCE&, const HINSTANCE&, const LPSTR&, const int&);

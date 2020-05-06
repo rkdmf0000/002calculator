@@ -82,7 +82,7 @@ LRESULT CALLBACK WelcomeWindowProcedure(HWND handle, UINT message, WPARAM wp, LP
 	}
 	return (DefWindowProc(handle, message, wp, lp));
 };
-void calculatorStart(HINSTANCE& hInstance, HINSTANCE& hPrevInstance, LPSTR& lpCmdLine, int& nCmdShow) {
+void calculatorStart(const HINSTANCE& hInstance, const HINSTANCE& hPrevInstance, const LPSTR& lpCmdLine, const int& nCmdShow) {
 	const wchar_t WelcomeWindowClassName[] = L"CWelcomeWindowClassName";
 
 	WNDCLASS WelcomeWindow;
@@ -116,10 +116,11 @@ void calculatorStart(HINSTANCE& hInstance, HINSTANCE& hPrevInstance, LPSTR& lpCm
 	windowx->SetText(L"Idiot À©µµ¿ì2");
 	windowx->SetLpClassName(WelcomeWindowClassName);
 	windowx->SethInstance(hInstance);
+
 	windowx->init();
 
 
-	windowx->on(WndCreateSupport::IMMEDIATE_LIVE_HOOK__MOUSE_CLICK, (void*)(&[](){
+	windowx->on(WndCreateSupport::IMMEDIATE_LIVE_HOOK::IMMEDIATE_LIVE_HOOK__MOUSE_CLICK,([](){
 		printf("helo\n");
 	}));
 
