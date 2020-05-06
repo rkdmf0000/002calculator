@@ -10,7 +10,8 @@ namespace WndCreateSupport {
 
 	std::vector<void*> win::WindowCollector;
 
-	win::win() {
+
+	win::win(void) {
 		printf("Create new window instance\n");
 		win::WindowCollector.push_back(this);
 		win::WindowLength = win::WindowCollector.size();
@@ -30,11 +31,19 @@ namespace WndCreateSupport {
 
 
 	void win::on(WndCreateSupport::IMMEDIATE_LIVE_HOOK Type, std::function<void()> Callback) {
-		this->HookStorage.push_back(Type);
+		this->HookStorage.push_back(this->HookStorageLength);
 		this->HookStorageLength = this->HookStorage.size();
+		this->HookStorage_type.push_back(Type);
 		this->HookStorage_ptr.push_back(Callback);
+		this->HookStorage_volatility.push_back(TRUE);
 	};
-
+	void win::on(WndCreateSupport::IMMEDIATE_LIVE_HOOK Type, std::function<void()> Callback,BOOLEAN Volatility = TRUE) {
+		this->HookStorage.push_back(this->HookStorageLength);
+		this->HookStorageLength = this->HookStorage.size();
+		this->HookStorage_type.push_back(Type);
+		this->HookStorage_ptr.push_back(Callback);
+		this->HookStorage_volatility.push_back(Volatility);
+	};
 	void win::ImmediateLiveUpdate() {
 		//STATICALLY EVER
 		
@@ -43,9 +52,16 @@ namespace WndCreateSupport {
 		//IMMEDIATELY EVER
 
 		//IMMEDIATELY ONCE
-		for (std::function<void()> Callback : this->HookStorage_ptr) {
-			//printf("%d\n", Type);
-			Callback();
+		for (unsigned long& idx : this->HookStorage) {
+			
+
+			if (this->HookStorage_volatility[idx] == TRUE) {
+				this->HookStorage_ptr[idx] = NULL;
+				this->HookStorage_type[idx] = NULL;
+				this->HookStorage_volatility[idx] = NULL;
+			}
+			//printf("이벤트 핸들 : %d / 이벤트 넘버 : %d\n", idx, this->HookStorage_type[idx]);
+			//Callback();
 		};
 
 	};
@@ -89,11 +105,11 @@ namespace WndCreateSupport {
 	void win::UpdatePos(int x, int y) {
 
 	};
-	const int* win::GetPos() {
-		int dump[1];
-		dump[0] = this->PosX;
-		dump[1] = this->PosY;
-		return dump;
+	int* win::GetPos() {
+		int dump;
+		//dump[0] = this->PosX;
+		//dump[1] = this->PosY;
+		return &dump;
 	};
 
 
@@ -104,11 +120,11 @@ namespace WndCreateSupport {
 	void win::UpdateSize(int x, int y) {
 
 	};
-	const int* win::GetSize() {
-		int dump[1];
-		dump[0] = this->Width;
-		dump[1] = this->Height;
-		return dump;
+	int* win::GetSize() {
+		int dump;
+		//dump[0] = this->Width;
+		//dump[1] = this->Height;
+		return &dump;
 	};
 
 
@@ -179,7 +195,6 @@ namespace WndCreateSupport {
 		} else {
 			printf("ID: 0 (%s)\n", dummy);
 		}
-		
 	}
 
 	unsigned int __stdcall win::StaticThreadEntry(void *args) {

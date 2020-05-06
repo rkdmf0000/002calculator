@@ -1,5 +1,7 @@
 
 #include "common.h"
+#include "WindowCreateSupport_DA.h"
+
 namespace WndCreateSupport {
 
 	/**
@@ -62,6 +64,7 @@ namespace WndCreateSupport {
 
 
 	class win {
+
 	private:
 
 		
@@ -72,8 +75,11 @@ namespace WndCreateSupport {
 		void MessageBoxOpen(LPCWSTR Caption, LPCWSTR Text);
 		void MessageBoxOpen(LPCWSTR Caption,LPCWSTR Text,UINT Style);
 
-		std::vector<IMMEDIATE_LIVE_HOOK> HookStorage;
+		std::vector<unsigned long> HookStorage;
+		std::vector<IMMEDIATE_LIVE_HOOK> HookStorage_type;
 		std::vector<std::function<void()>> HookStorage_ptr;
+		std::vector<BOOLEAN> HookStorage_volatility;
+
 		unsigned long HookStorageLength = 0;
 
 		const __int16 RandomizeNumber(int a, int b, int length);
@@ -110,26 +116,10 @@ namespace WndCreateSupport {
 		
 
 	public:
-		static unsigned long WindowLength;
-		static std::vector<void*> WindowCollector;
-		win(
-			LPCWSTR lpClassName,
-			LPCWSTR Text,
-			HMENU Menu,
-			HINSTANCE hInstance
-		);
-		win(
-			LPCWSTR lpClassName,
-			LPCWSTR Text,
-			HMENU Menu,
-			HINSTANCE hInstance,
-			INT posX,
-			INT posY,
-			INT Width,
-			INT Height
-		);
 		win();
 		~win();
+		static unsigned long WindowLength;
+		static std::vector<void*> WindowCollector;
 
 		void WindowClassRegister(WNDCLASS& WndClassOptions);
 		void SetLpClassName(LPCWSTR lpClassName);
@@ -142,11 +132,11 @@ namespace WndCreateSupport {
 
 		void SetPos(int x, int y);
 		void UpdatePos(int x, int y);
-		const int* GetPos();
+		int* GetPos();
 		
 		void SetSize(int w, int h);
 		void UpdateSize(int w, int h);
-		const int* GetSize();
+		int* GetSize();
 		
 		void SetText(LPCWSTR Text);
 		void UpdateText(LPCWSTR Text);
@@ -178,6 +168,7 @@ namespace WndCreateSupport {
 		void init();
 
 		void on(IMMEDIATE_LIVE_HOOK, std::function<void()>);
+		void on(IMMEDIATE_LIVE_HOOK, std::function<void()>,BOOLEAN = TRUE);
 
 	};
 

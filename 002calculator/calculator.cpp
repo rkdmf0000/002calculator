@@ -19,9 +19,9 @@ void MousePosDisplay(HWND& handle, UINT& message, WPARAM& wp, LPARAM& lp) {
 	HDC hDC = GetDC(handle);
 	Rectangle(hDC, 18, 18, 60, 58);
 	TextOut(hDC, 20, 20, L"x:", 2);
-	TextOut(hDC, 30, 20, chx, _tcslen(chx));
+	TextOut(hDC, 30, 20, chx, (int)_tcslen(chx));
 	TextOut(hDC, 20, 40, L"y:", 2);
-	TextOut(hDC, 30, 40, chy, _tcslen(chy));
+	TextOut(hDC, 30, 40, chy, (int)_tcslen(chy));
 	ReleaseDC(handle, hDC);
 }
 
@@ -43,18 +43,18 @@ LRESULT CALLBACK WelcomeWindowProcedure(HWND handle, UINT message, WPARAM wp, LP
 		return 0;
 
 	case WM_ACTIVATE:
-		printf("WM_ACTIVATE ON: %d/%d\n", wp, lp);
+		printf("WM_ACTIVATE ON: %d/%d\n", (int)wp, (int)lp);
 		return 0;
 	case WM_COPY:
 		printf("WM_COPY ON\n");
 		return 0;
 
 	case WM_KEYUP:
-		printf("WM_KEYUP ON: %d/%d\n", wp, lp);
+		printf("WM_KEYUP ON: %d/%d\n", (int)wp, (int)lp);
 		//SendMessage(handle, WM_COPY, (WPARAM)L"fucker", NULL);
 		return 0;
 	case WM_KEYDOWN:
-		printf("WM_KEYDOWN ON: %d/%d\n", wp, lp);
+		printf("WM_KEYDOWN ON: %d/%d\n", (int)wp, (int)lp);
 		return 0;
 	case WM_COMMAND:
 		printf("WM_COMMAND ON\n");
@@ -82,6 +82,7 @@ LRESULT CALLBACK WelcomeWindowProcedure(HWND handle, UINT message, WPARAM wp, LP
 	}
 	return (DefWindowProc(handle, message, wp, lp));
 };
+
 void calculatorStart(const HINSTANCE& hInstance, const HINSTANCE& hPrevInstance, const LPSTR& lpCmdLine, const int& nCmdShow) {
 	const wchar_t WelcomeWindowClassName[] = L"CWelcomeWindowClassName";
 
@@ -98,8 +99,8 @@ void calculatorStart(const HINSTANCE& hInstance, const HINSTANCE& hPrevInstance,
 	WelcomeWindow.style = CS_HREDRAW | CS_VREDRAW;
 
 	WndCreateSupport::win* window = new WndCreateSupport::win;
-	window->WindowClassRegister(WelcomeWindow);
 
+	window->WindowClassRegister(WelcomeWindow);
 	window->SetPos(100, 100);
 	window->SetSize(500, 500);
 	window->SetStyle(WS_OVERLAPPEDWINDOW | WS_VISIBLE);
